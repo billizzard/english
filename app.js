@@ -52,6 +52,16 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/auth', auth);
 
+app.use(function(err, req, res, next) {
+    err.message = Array.isArray(err.message) ? err.message.pop().msg : err.message;
+    if (err) {
+        if (err.code === 400) {
+            let view = err.view ? err.view : req.url.slice(1);
+            return res.render(view, { message : {danger: [err.message]} });
+        }
+    }
+})
+
 //load passport strategies
 
 require('./config/passport/passport.js')(passport, models.user);

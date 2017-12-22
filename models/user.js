@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
             passwordToHash: function () {
                 return new Promise((resolve, reject) => {
                     let that = this;
-                    bcrypt.hash(this.password, 'sdsd', null, function (err, hash) {
+                    bcrypt.hash(this.password, null, null, function (err, hash) {
                         if (err) {
                             reject(err);
                         } else {
