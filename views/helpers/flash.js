@@ -1,10 +1,9 @@
 module.exports = (object) => {
-    let html = '<div class="messages">';
-    for (var prop in object) {
-        object[prop].forEach(function (val) {
-            html += '<div class="alert alert-' + prop + '">' + val + '</div>';
-        })
+    let html = '';
+    if (object) {
+        html += '<div class="messages">';
+        html += '<div class="alert alert-' + object.type + '">' + object.text + '</div>';
+        html += '</div>';
     }
-    html += '</div>';
     return html;
 }

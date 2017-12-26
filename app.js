@@ -1,13 +1,14 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var models = require('./models');
 var passport = require('passport')
 var session = require('express-session')
 var expressValidator = require('express-validator');
+const logger = require('./modules/logger').dev;
+const helper = require('./modules/helper');
 
 
 var routes = require('./routes/index');
@@ -23,6 +24,7 @@ let handlebars = require('express-handlebars').create({
     }
 });
 
+
 // view engine setup
 app.engine('handlebars', handlebars.engine);
 app.set('views', path.join(__dirname, 'views'));
@@ -30,7 +32,7 @@ app.set('view engine', 'handlebars');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -55,11 +57,18 @@ app.use('/auth', auth);
 app.use(function(err, req, res, next) {
     err.message = Array.isArray(err.message) ? err.message.pop().msg : err.message;
     if (err) {
-        if (err.code === 400) {
+        logger.warn(err);
+        if (req.xhr) {
+            return res.status(400).json({"message": {
+                "text": err.message,
+                "type": "danger"
+            }});
+        } else if (err.code === 400) {
             let view = err.view ? err.view : req.url.slice(1);
-            return res.render(view, { message : {danger: [err.message]} });
+            return res.render(view, helper.getErrorMessage(err.message));
         }
     }
+    next();
 })
 
 //load passport strategies

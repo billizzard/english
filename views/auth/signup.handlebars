@@ -2,11 +2,11 @@
     <div class="page">
         <form id="signup" name="signup" method="post" action="/auth/signup">
             <label for="email">Email</label>
-            <input class="text h_required" name="email" type="email" />
+            <input class="text" data-rules='{"required":true, "email": true}' name="email"  />
             <label for="password">Пароль</label>
-            <input name="password" class="h_required" type="password" />
+            <input name="password" data-rules='{"required":true, "label": "Пароль"}' type="password" />
             <label for="password_repeat">Повторите пароль</label>
-            <input name="password_repeat" class="h_required" type="password" />
+            <input name="password_repeat" data-rules='{"required":true, "same": "password", "label": "Повторите пароль"}' type="password" />
             <input class="btn" type="submit" value="Зарегистрироваться" />
         </form>
     </div>

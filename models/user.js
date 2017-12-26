@@ -13,7 +13,21 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true,
         updatedAt: false,
 
-        classMethods: {},
+        classMethods: {
+            findByEmail: function(email) {
+                console.log('findByEmail');
+                return new Promise((resolve, reject) => {
+                    Model.User.findOne({
+                        where: {
+                            email: email
+                        }
+                    }).then(user => {
+                        resolve(user);
+                    });
+                });
+            }
+        },
+
         instanceMethods: {
 
             passwordToHash: function () {
