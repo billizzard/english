@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt-nodejs');
 const constants = require('../constants/app')
 
+
 module.exports = (sequelize, DataTypes) => {
     var User = sequelize.define('User', {
         email: {
@@ -15,17 +16,26 @@ module.exports = (sequelize, DataTypes) => {
 
         classMethods: {
             findByEmail: function(email) {
-                console.log('findByEmail');
-                return new Promise((resolve, reject) => {
-                    Model.User.findOne({
-                        where: {
-                            email: email
-                        }
-                    }).then(user => {
-                        resolve(user);
-                    });
-                });
-            }
+                 return User.findOne({
+                    where: {
+                        email: email
+                    }
+                })
+
+            },
+
+            // findByEmail: function(email) {
+            //     console.log('222222');
+            //     return new Promise((resolve, reject) => {
+            //         Model.User.findOne({
+            //             where: {
+            //                 email: email
+            //             }
+            //         }).then(user => {
+            //             resolve(user);
+            //         });
+            //     });
+            // }
         },
 
         instanceMethods: {
